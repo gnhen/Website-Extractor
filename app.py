@@ -52,7 +52,9 @@ def crawl_and_download(url, base_folder, depth=2):
 
 if __name__ == "__main__":
     website_url = input("Enter the website URL: ")
-    base_folder = "downloaded_site"
+    semicolonslashslash = "://"
+    folder_name = website_url.replace(semicolonslashslash, "_")
+    base_folder = folder_name
 
     create_directory(base_folder)
     crawl_and_download(website_url, base_folder)
