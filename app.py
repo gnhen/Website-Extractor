@@ -18,6 +18,9 @@ def save_content(url, folder):
         folder, os.path.basename(urlparse(url).path) or "index.html"
     )
 
+    if not os.path.splitext(filename)[1]:
+        filename += ".html"
+
     with open(filename, "wb") as file:
         file.write(response.content)
     print(f"Downloaded: {url}")
