@@ -7,6 +7,7 @@ Pulls ALL files from a website.
 ### Using EXE Package
 1. Download EXE File from <a href="https://github.com/gnhen/Website-Extractor/releases">Releases</a>
 2. Run EXE File
+
 Done!
 
 ## Option 2
@@ -14,4 +15,5 @@ Done!
 1. Download
 2. Open Command Line
 3. Run ```python app.py```
+
 Done!
