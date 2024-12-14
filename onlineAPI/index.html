@@ -86,7 +86,7 @@
                 return;
             }
 
-            fetch('http://localhost:5000/start_crawl', {
+            fetch('http://192.168.86.34:5000/start_crawl', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -106,7 +106,7 @@
         });
 
         function fetchLogs() {
-            fetch('http://localhost:5000/logs')
+            fetch('http://192.168.86.34:5000/logs')
                 .then(response => response.json())
                 .then(data => {
                     const logContainer = document.getElementById('logs');
