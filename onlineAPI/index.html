@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Crawler Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .logs {
+            background: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        input {
+            width: calc(100% - 24px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Web Crawler</h1>
+
+        <label for="url">Enter URL:</label>
+        <input type="text" id="url" placeholder="https://example.com">
+
+        <label for="depth">Crawl Depth:</label>
+        <input type="number" id="depth" placeholder="2" min="1" max="10">
+
+        <button id="start">Start Crawling</button>
+
+        <h2>Logs</h2>
+        <div class="logs" id="logs">Logs will appear here...</div>
+    </div>
+
+    <script>
+        document.getElementById('start').addEventListener('click', () => {
+            const url = document.getElementById('url').value;
+            const depth = document.getElementById('depth').value || 2;
+
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+
+            fetch('http://localhost:5000/start_crawl', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url, depth: parseInt(depth) })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                    } else {
+                        alert('Crawling started: ' + data.url);
+                        fetchLogs();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        function fetchLogs() {
+            fetch('http://localhost:5000/logs')
+                .then(response => response.json())
+                .then(data => {
+                    const logContainer = document.getElementById('logs');
+                    if (data.logs) {
+                        logContainer.innerHTML = data.logs.map(log => `<p>${log}</p>`).join('');
+                    } else if (data.error) {
+                        logContainer.textContent = 'Error fetching logs: ' + data.error;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+
+</html>
